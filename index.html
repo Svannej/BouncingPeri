@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bouncing Peri</title>
+    <link rel="icon" href="https://sites.unipa.it/networks/ndslab/images/people/peri.jpg">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: black;
+        }
+        #container {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+        }
+        #image {
+            position: absolute;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <img id="image" src="https://sites.unipa.it/networks/ndslab/images/people/peri.jpg" alt="Bouncing Image">
+    </div>
+    <script>
+        const img = document.getElementById("image");
+
+        let x = 100, y = 100;
+        let dx = 5, dy = 5;
+        let imgSize;
+
+        function updateImageSize() {
+            imgSize = Math.min(window.innerWidth, window.innerHeight) * 0.15;
+            img.style.width = imgSize + "px";
+        }
+
+        function move() {
+            const containerWidth = window.innerWidth;
+            const containerHeight = window.innerHeight;
+            
+            x += dx;
+            y += dy;
+
+            if (x + imgSize >= containerWidth || x <= 0) {
+                dx = -dx;
+            }
+            if (y + imgSize >= containerHeight || y <= 0) {
+                dy = -dy;
+            }
+
+            img.style.left = x + "px";
+            img.style.top = y + "px";
+
+            requestAnimationFrame(move);
+        }
+
+        function onResize() {
+            updateImageSize();
+
+            x = Math.min(x, window.innerWidth - imgSize);
+            y = Math.min(y, window.innerHeight - imgSize);
+        }
+
+        updateImageSize();
+        window.addEventListener("resize", onResize);
+        move();
+    </script>
+</body>
+</html>
